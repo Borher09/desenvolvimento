@@ -1,0 +1,83 @@
+<!-- src/views/posto/formulario-cadastro.hbs -->
+<h2>Cadastro de Posto</h2>
+
+{{#if messages.error}}
+    <div class="alert alert-danger">
+        {{#each messages.error}}
+            <p class="p-0 m-0">{{this}}</p>
+        {{/each}}
+    </div>
+{{/if}}
+
+<form method="post" action="/posto/novo/salvar">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <label for="nome" class="form-label">Nome do Posto *</label>
+            <input type="text" name="nome" id="nome" class="form-control" 
+                   value="{{getValue old.nome ''}}" required>
+        </div>
+        <div class="col-md-4">
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="text" name="telefone" id="telefone" class="form-control" 
+                   value="{{getValue old.telefone ''}}">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <label for="endereco" class="form-label">Endereço *</label>
+            <input type="text" name="endereco" id="endereco" class="form-control" 
+                   value="{{getValue old.endereco ''}}" required>
+        </div>
+    </div>
+
+    <h5 class="mt-4 mb-3">Preços dos Combustíveis</h5>
+    
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="preco_gasolina_comum" class="form-label">Gasolina Comum (R$)</label>
+            <input type="number" step="0.001" min="0" 
+                   name="preco_gasolina_comum" id="preco_gasolina_comum" class="form-control" 
+                   value="{{getValue old.preco_gasolina_comum ''}}">
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <label for="preco_gasolina_aditivada" class="form-label">Gasolina Aditivada (R$)</label>
+            <input type="number" step="0.001" min="0" 
+                   name="preco_gasolina_aditivada" id="preco_gasolina_aditivada" class="form-control" 
+                   value="{{getValue old.preco_gasolina_aditivada ''}}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="preco_etanol" class="form-label">Etanol (R$)</label>
+            <input type="number" step="0.001" min="0" 
+                   name="preco_etanol" id="preco_etanol" class="form-control" 
+                   value="{{getValue old.preco_etanol ''}}">
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <label for="preco_diesel" class="form-label">Diesel (R$)</label>
+            <input type="number" step="0.001" min="0" 
+                   name="preco_diesel" id="preco_diesel" class="form-control" 
+                   value="{{getValue old.preco_diesel ''}}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="preco_diesel_s10" class="form-label">Diesel S10 (R$)</label>
+            <input type="number" step="0.001" min="0" 
+                   name="preco_diesel_s10" id="preco_diesel_s10" class="form-control" 
+                   value="{{getValue old.preco_diesel_s10 ''}}">
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        
+        </div>
+    </div>
+</form>

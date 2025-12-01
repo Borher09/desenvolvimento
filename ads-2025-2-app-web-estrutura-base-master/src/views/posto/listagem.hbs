@@ -1,0 +1,99 @@
+<!-- src/views/posto/listagem.hbs -->
+<h3 class="mb-4">Postos de Combustível</h3>
+
+<div class="mb-3">
+    <a href="/posto/novo" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Novo Posto
+    </a>
+</div>
+
+{{#if messages.success}}
+    <div class="alert alert-success">
+        {{#each messages.success}}
+            {{this}}
+        {{/each}}
+    </div>
+{{/if}}
+
+{{#if messages.error}}
+    <div class="alert alert-danger">
+        {{#each messages.error}}
+            {{this}}
+        {{/each}}
+    </div>
+{{/if}}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>Gasolina Comum</th>
+            <th>Gasolina Aditivada</th>
+            <th>Etanol</th>
+            <th>Diesel</th>
+            <th>Diesel S10</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each listaPostos}}
+        <tr>
+            <td>
+                {{this.nome}}
+                {{#if this.telefone}}
+                    <br><small class="text-muted">{{this.telefone}}</small>
+                {{/if}}
+            </td>
+            <td>{{this.endereco}}</td>
+            <td>
+                {{#if this.preco_gasolina_comum}}
+                    R$ {{formatNumber this.preco_gasolina_comum 3}}
+                {{else}}
+                    <span class="text-muted">-</span>
+                {{/if}}
+            </td>
+            <td>
+                {{#if this.preco_gasolina_aditivada}}
+                    R$ {{formatNumber this.preco_gasolina_aditivada 3}}
+                {{else}}
+                    <span class="text-muted">-</span>
+                {{/if}}
+            </td>
+            <td>
+                {{#if this.preco_etanol}}
+                    R$ {{formatNumber this.preco_etanol 3}}
+                {{else}}
+                    <span class="text-muted">-</span>
+                {{/if}}
+            </td>
+            <td>
+                {{#if this.preco_diesel}}
+                    R$ {{formatNumber this.preco_diesel 3}}
+                {{else}}
+                    <span class="text-muted">-</span>
+                {{/if}}
+            </td>
+            <td>
+                {{#if this.preco_diesel_s10}}
+                    R$ {{formatNumber this.preco_diesel_s10 3}}
+                {{else}}
+                    <span class="text-muted">-</span>
+                {{/if}}
+            </td>
+            <td>
+                <a href="/posto/{{this.id}}/atualizacao" class="btn btn-sm btn-warning">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="/posto/{{this.id}}/exclusao" class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash"></i> Excluir
+                </a>
+            </td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="8" class="text-center">Nenhum posto cadastrado</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

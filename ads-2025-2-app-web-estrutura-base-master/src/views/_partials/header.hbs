@@ -1,0 +1,29 @@
+<header class="header">
+<!-- CRUCIAL: O container garante a largura máxima e centraliza o conteúdo do header -->
+<div class="container">
+<!-- Estrutura de Logo: Usa a classe 'logo' do CSS -->
+<a href="/posto" class="logo">
+<!-- Seu CSS define i.fas.fa-gas-pump para o ícone, mas manteremos sua imagem se ela existir. -->
+<!-- Se você tiver um ícone Font Awesome, use: <i class="fas fa-gas-pump"></i> -->
+<img src="/img/logo.png" alt="Logo Posto Confiável" class="logo-img" style="height: 30px;">
+<!-- Usando h1 para bater com a regra .logo h1 do seu CSS -->
+<h1>Posto Confiável</h1>
+</a>
+
+    <!-- Estrutura de Navegação: Adicionada a classe 'nav' do seu CSS -->
+    <nav class="nav">
+        <!-- Links corrigidos para as rotas de listagem CRUD -->
+        <a href="/posto" class="btn btn-outline">Postos</a>
+        <a href="/combustivel" class="btn btn-outline">Combustíveis</a>
+        <a href="/usuario" class="btn btn-outline">Usuários</a>
+        
+        <!-- Exemplo de Informação de Usuário Logado -->
+        <div class="user-info">
+            <i class="fas fa-user-circle"></i>
+            <span>Bem-vindo!</span>
+        </div>
+    </nav>
+</div>
+
+
+</header>

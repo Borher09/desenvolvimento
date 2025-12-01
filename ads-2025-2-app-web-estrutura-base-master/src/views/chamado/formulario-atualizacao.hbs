@@ -1,0 +1,111 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit"></i>
+                        Atualização de Posto - {{posto.nome}}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {{#if messages.error}}
+                        <div class="alert alert-danger">
+                            {{#each messages.error}}
+                                <p class="p-0 m-0">{{this}}</p>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+
+                    <form method="post" action="/posto/{{posto.id}}/atualizacao-salvar?_method=put">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="nome" class="form-label">Nome do Posto *</label>
+                                <input type="text" name="nome" id="nome" class="form-control" 
+                                       value="{{getValue old.nome posto.nome}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label for="endereco" class="form-label">Endereço *</label>
+                                <input type="text" name="endereco" id="endereco" class="form-control" 
+                                       value="{{getValue old.endereco posto.endereco}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label for="telefone" class="form-label">Telefone</label>
+                                <input type="text" name="telefone" id="telefone" class="form-control" 
+                                       value="{{getValue old.telefone posto.telefone}}">
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h5>Preços dos Combustíveis</h5>
+                                {{#each tiposCombustivel}}
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <label class="form-label">{{this}}</label>
+                                        {{#with (lookup ../precos (concat 'preco_' (replace this ' ' '_' 'lower')))}}
+                                        <input type="number" step="0.01" min="0" class="form-control" 
+                                               name="preco_{{replace this ' ' '_' 'lower'}}" 
+                                               placeholder="Preço (opcional)"
+                                               value="{{this}}">
+                                        {{else}}
+                                        <input type="number" step="0.01" min="0" class="form-control" 
+                                               name="preco_{{replace this ' ' '_' 'lower'}}" 
+                                               placeholder="Preço (opcional)"
+                                               value="{{getValue (lookup ../old (concat 'preco_' (replace this ' ' '_' 'lower'))) ''}}">
+                                        {{/with}}
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label class="form-label">Serviços</label>
+                                {{#each servicosDisponiveis}}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" 
+                                           name="servicos[]" value="{{this}}"
+                                           id="servico{{@index}}"
+                                           {{#if (contains servicosArray this)}}
+                                               checked
+                                           {{else if (contains old.servicos this)}}
+                                               checked
+                                           {{/if}}>
+                                    <label class="form-check-label" for="servico{{@index}}">
+                                        {{this}}
+                                    </label>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label for="ratingMedio" class="form-label">Rating Médio</label>
+                                <input type="number" step="0.1" min="0" max="5" 
+                                       name="ratingMedio" id="ratingMedio" class="form-control" 
+                                       value="{{getValue old.ratingMedio posto.ratingMedio}}"
+                                       placeholder="Avaliação de 0 a 5">
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">Atualizar</button>
+                                <a href="/posto" class="btn btn-sm btn-secondary">Cancelar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
