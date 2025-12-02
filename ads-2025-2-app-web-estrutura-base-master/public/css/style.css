@@ -1,33 +1,96 @@
-/* src/public/css/home.css */
+/* ==========================================================================
+   ARQUIVO: estilo-unificado.css
+   DESCRIÇÃO: Estilos completos do Sistema de Postos de Combustível
+   COMBINA: style.css + home.css
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIÁVEIS CSS GLOBAIS
+   ========================================================================== */
 :root {
+    /* Cores Principais */
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
     --accent-color: #e74c3c;
-    --light-color: #ecf0f1;
+    --light-color: #1290afff;
     --dark-color: #2c3e50;
     --success-color: #27ae60;
     --warning-color: #f39c12;
+    
+    /* Cores de Feedback */
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    
+    /* Cores Neutras */
+    --light-gray: #f8f9fa;
+    --medium-gray: #6c757d;
+    --dark-gray: #343a40;
+    --border-color: #dee2e6;
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 10px rgba(0,0,0,0.1);
+    --shadow-md: 0 5px 20px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+    
+    /* Bordas */
+    --border-radius-sm: 5px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 15px;
+    --border-radius-xl: 20px;
+    --border-radius-full: 30px;
+    
+    /* Espaçamentos */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 25px;
+    --spacing-xxl: 30px;
+}
+
+/* ==========================================================================
+   2. RESET E ESTILOS GERAIS
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    background-color: #f8f9fa;
+    background-color: var(--light-gray);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
+    line-height: 1.6;
+    padding-top: 20px;
 }
 
+/* Container principal responsivo */
+.container {
+    max-width: 1200px;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   3. CABEÇALHO (HEADER)
+   ========================================================================== */
 .header {
     background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
     color: white;
     padding: 1.5rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-sm);
+    position: relative;
 }
 
+/* Logo da aplicação */
 .logo {
     color: white;
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: var(--spacing-md);
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -37,21 +100,31 @@ body {
     color: var(--secondary-color);
 }
 
+.logo h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+/* Navegação principal */
 .nav {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: var(--spacing-lg);
 }
 
 .user-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--spacing-sm);
     padding: 8px 15px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-xl);
+    backdrop-filter: blur(5px);
 }
 
+/* ==========================================================================
+   4. SEÇÃO DE BUSCA
+   ========================================================================== */
 .search-section {
     background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), 
                 url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
@@ -60,49 +133,100 @@ body {
     color: white;
     padding: 4rem 0;
     text-align: center;
+    margin-bottom: var(--spacing-xl);
 }
 
 .search-section h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .search-section p {
     font-size: 1.2rem;
     opacity: 0.9;
     margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* Formulário de busca */
 .search-form {
     max-width: 600px;
     margin: 0 auto;
     display: flex;
-    gap: 10px;
+    gap: var(--spacing-sm);
 }
 
 .search-form .form-control {
     flex: 1;
     padding: 15px 20px;
     border: none;
-    border-radius: 30px;
+    border-radius: var(--border-radius-full);
     font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background: var(--secondary-color);
-    border: none;
-    padding: 10px 30px;
-    border-radius: 30px;
+.search-form .form-control:focus {
+    background: white;
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+
+/* ==========================================================================
+   5. CARDS DE ESTATÍSTICAS
+   ========================================================================== */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin: 3rem 0;
+}
+
+.stat-card {
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.stat-number {
+    font-size: 2.5rem;
     font-weight: bold;
-    transition: all 0.3s;
+    color: var(--primary-color);
+    margin: var(--spacing-sm) 0;
 }
 
-.btn-primary:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
+.stat-number small {
+    font-size: 1rem;
+    color: var(--medium-gray);
 }
 
+.stat-label {
+    color: var(--medium-gray);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   6. LISTA DE POSTOS
+   ========================================================================== */
 .postos-container {
     padding: 3rem 0;
 }
@@ -119,34 +243,40 @@ body {
 .postos-header h2 {
     color: var(--primary-color);
     font-weight: bold;
+    font-size: 2rem;
 }
 
+/* Grid de postos */
 .postos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 25px;
+    gap: var(--spacing-xl);
     margin-top: 2rem;
 }
 
+/* Card individual de posto */
 .posto-card {
     background: white;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .posto-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-lg);
 }
 
 .posto-header {
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    margin-bottom: 20px;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
 }
 
 .posto-header h3 {
@@ -154,29 +284,43 @@ body {
     margin: 0;
     font-size: 1.3rem;
     font-weight: bold;
+    line-height: 1.3;
 }
 
 .rating {
     background: var(--warning-color);
     color: white;
     padding: 5px 10px;
-    border-radius: 20px;
+    border-radius: var(--border-radius-xl);
     font-size: 0.9rem;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
 }
 
-.endereco, .telefone {
+/* Informações do posto */
+.endereco,
+.telefone {
     color: #666;
-    margin-bottom: 10px;
+    margin-bottom: var(--spacing-sm);
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 0.95rem;
 }
 
+.endereco i,
+.telefone i {
+    color: var(--secondary-color);
+}
+
+/* Seção de combustíveis */
 .combustiveis {
-    margin: 20px 0;
-    background: var(--light-color);
-    padding: 15px;
-    border-radius: 10px;
+    margin: var(--spacing-lg) 0;
+    background: rgba(18, 144, 175, 0.05);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    flex-grow: 1;
 }
 
 .combustivel {
@@ -184,7 +328,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .combustivel:last-child {
@@ -194,6 +338,7 @@ body {
 .tipo {
     font-weight: bold;
     color: var(--primary-color);
+    font-size: 1rem;
 }
 
 .preco {
@@ -202,23 +347,134 @@ body {
     font-size: 1.1rem;
 }
 
+/* Preço baixo/destaque */
+.price-low {
+    color: var(--success-color);
+    background-color: rgba(25, 135, 84, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--border-radius-sm);
+}
+
+/* Preço alto */
+.price-high {
+    color: var(--accent-color);
+    background-color: rgba(220, 53, 69, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--border-radius-sm);
+}
+
+/* Sem preço */
+.no-price {
+    color: var(--medium-gray);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Ações do card */
 .card-actions {
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   7. TABELAS
+   ========================================================================== */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table th {
+    background-color: var(--dark-gray);
+    color: white;
+    padding: 12px 15px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color);
+    text-align: left;
+}
+
+.table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+/* Células de preço na tabela */
+.price-cell {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   8. BOTÕES
+   ========================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn i {
+    font-size: 1.1em;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: var(--border-radius-full);
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+}
+
+.btn-outline-primary:hover {
+    background: var(--secondary-color);
+    color: white;
 }
 
 .btn-sm {
     padding: 8px 15px;
-    border-radius: 20px;
+    border-radius: var(--border-radius-xl);
     font-size: 0.9rem;
+    margin-right: var(--spacing-xs);
 }
 
 .btn-info {
     background: var(--secondary-color);
     border: none;
+    color: white;
 }
 
 .btn-warning {
@@ -230,17 +486,115 @@ body {
 .btn-danger {
     background: var(--accent-color);
     border: none;
+    color: white;
 }
 
+/* ==========================================================================
+   9. FORMULÁRIOS
+   ========================================================================== */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    outline: none;
+}
+
+.form-control:required {
+    border-left: 3px solid var(--accent-color);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark-gray);
+    display: block;
+}
+
+/* ==========================================================================
+   10. ALERTAS E NOTIFICAÇÕES
+   ========================================================================== */
+.alert {
+    margin-top: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    border: 1px solid transparent;
+    padding: 15px 20px;
+    position: relative;
+}
+
+.alert-dismissible {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.alert-success {
+    background-color: rgba(39, 174, 96, 0.1);
+    border-color: rgba(39, 174, 96, 0.2);
+    color: var(--success-color);
+}
+
+.alert-danger {
+    background-color: rgba(231, 76, 60, 0.1);
+    border-color: rgba(231, 76, 60, 0.2);
+    color: var(--accent-color);
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   11. SEM RESULTADOS
+   ========================================================================== */
 .no-results {
     text-align: center;
     padding: 4rem 2rem;
     background: white;
-    border-radius: 15px;
-    border: 2px dashed #ddd;
+    border-radius: var(--border-radius-lg);
+    border: 2px dashed var(--border-color);
     grid-column: 1 / -1;
 }
 
+.no-results i {
+    font-size: 3rem;
+    color: var(--medium-gray);
+    margin-bottom: var(--spacing-md);
+}
+
+.no-results p {
+    color: var(--medium-gray);
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   12. RODAPÉ (FOOTER)
+   ========================================================================== */
 .footer {
     background: var(--primary-color);
     color: white;
@@ -249,40 +603,24 @@ body {
     margin-top: 4rem;
 }
 
-.stats-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin: 3rem 0;
+.footer p {
+    margin-bottom: 0.5rem;
 }
 
-.stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+.footer .small {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: var(--spacing-sm);
 }
 
-.stat-card i {
-    font-size: 2.5rem;
+.footer i {
+    margin-right: var(--spacing-xs);
     color: var(--secondary-color);
-    margin-bottom: 15px;
 }
 
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin: 10px 0;
-}
-
-.stat-label {
-    color: #666;
-    font-size: 1rem;
-}
-
-/* Animações */
+/* ==========================================================================
+   13. ANIMAÇÕES
+   ========================================================================== */
 .fade-in {
     opacity: 0;
     transform: translateY(20px);
@@ -294,32 +632,167 @@ body {
     transform: translateY(0);
 }
 
+/* Animação para cards */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.posto-card {
+    animation: cardAppear 0.6s ease-out forwards;
+}
+
+/* ==========================================================================
+   14. UTILITÁRIOS
+   ========================================================================== */
+.text-center { text-align: center; }
+.text-muted { color: var(--medium-gray) !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+
+/* ==========================================================================
+   15. RESPONSIVIDADE
+   ========================================================================== */
 @media (max-width: 768px) {
-    .search-form {
-        flex-direction: column;
+    /* Ajustes gerais */
+    .container {
+        padding-left: var(--spacing-sm);
+        padding-right: var(--spacing-sm);
     }
     
-    .postos-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .postos-header {
+    /* Header responsivo */
+    .header .container > div {
         flex-direction: column;
-        gap: 15px;
-        text-align: center;
+        gap: var(--spacing-md);
     }
     
     .nav {
         justify-content: center;
-        margin-top: 15px;
-    }
-    
-    .header .container > div {
-        flex-direction: column;
-        gap: 15px;
+        margin-top: var(--spacing-md);
+        flex-wrap: wrap;
     }
     
     .user-info {
         font-size: 0.9rem;
+    }
+    
+    /* Seção de busca */
+    .search-section {
+        padding: 3rem 0;
+    }
+    
+    .search-section h2 {
+        font-size: 2rem;
+    }
+    
+    .search-form {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    /* Grid de postos */
+    .postos-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    /* Header da lista de postos */
+    .postos-header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    /* Cards de estatísticas */
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    /* Botões */
+    .btn-sm {
+        display: block;
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+        margin-right: 0;
+    }
+    
+    .card-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 10px;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+    
+    .logo i {
+        font-size: 1.5rem;
+    }
+    
+    .search-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .postos-header h2 {
+        font-size: 1.6rem;
+    }
+    
+    .nav-link {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .card-body {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .posto-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+    
+    .rating {
+        align-self: flex-start;
+    }
+    
+    .combustivel {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .preco {
+        align-self: flex-start;
     }
 }

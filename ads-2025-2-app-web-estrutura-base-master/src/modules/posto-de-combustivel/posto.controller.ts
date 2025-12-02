@@ -18,9 +18,7 @@ import { PostoService } from './posto.service';
 
 @Controller('/posto')
 export class PostoController {
-    constructor(
-        private readonly postoService: PostoService,
-    ) { }
+    constructor(private readonly postoService: PostoService) {}
 
     @Get()
     @Render('posto/listagem')
@@ -35,38 +33,38 @@ export class PostoController {
         return {};
     }
 
-  @Post('/novo/salvar')
-async formularioCadastroSalvar(
-    @Body() dadosForm: any,
-    @Req() req: Request,
-    @Res() res: Response,
-) {
-    console.log("Controller - Dados recebidos:", dadosForm);
+    @Post('/novo/salvar')
+    async formularioCadastroSalvar(
+        @Body() dadosForm: any,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        console.log("Controller - Dados recebidos:", dadosForm);
+
         const resultado = await validate(PostoDto, dadosForm);
 
         if (resultado.isError) {
             req.addFlash('error', resultado.getErrors);
             req.setOld(dadosForm);
             return res.redirect('/posto/novo');
-        } else {
-            await this.postoService.create(dadosForm);
-            req.addFlash('success', 'Posto cadastrado com sucesso!');
-            return res.redirect('/posto');
         }
+
+        await this.postoService.create(dadosForm);
+        req.addFlash('success', 'Posto cadastrado com sucesso!');
+        return res.redirect('/posto');
     }
 
     @Get('/:id/exclusao')
     @Render('posto/formulario-exclusao')
     async formularioExclusao(
         @Param('id') id: number,
-        @Req() req: Request,
-        @Res() res: Response,
+        @Req() req: Request
     ) {
         const posto = await this.postoService.findOne(id);
 
-        if (posto == null) {
+        if (!posto) {
             req.addFlash('error', 'O posto solicitado não foi encontrado!');
-            return res.redirect('/posto');
+            return { redirect: '/posto' };
         }
 
         return { posto };
@@ -80,13 +78,10 @@ async formularioCadastroSalvar(
     ) {
         const posto = await this.postoService.findOne(id);
 
-        if (posto == null) {
+        if (!posto) {
             req.addFlash('error', 'O posto solicitado não foi encontrado!');
         } else {
-            req.addFlash(
-                'success',
-                `Posto: ${posto.nome} excluído com sucesso!`,
-            );
+            req.addFlash('success', `Posto: ${posto.nome} excluído com sucesso!`);
             await this.postoService.remove(id);
         }
 
@@ -97,14 +92,13 @@ async formularioCadastroSalvar(
     @Render('posto/formulario-atualizacao')
     async formularioAtualizacao(
         @Param('id') id: number,
-        @Req() req: Request,
-        @Res() res: Response,
+        @Req() req: Request
     ) {
         const posto = await this.postoService.findOne(id);
 
-        if (posto == null) {
+        if (!posto) {
             req.addFlash('error', 'O posto solicitado não foi encontrado!');
-            return res.redirect('/posto');
+            return { redirect: '/posto' };
         }
 
         return { posto };
@@ -119,7 +113,7 @@ async formularioCadastroSalvar(
     ) {
         const posto = await this.postoService.findOne(id);
 
-        if (posto == null) {
+        if (!posto) {
             req.addFlash('error', 'O posto solicitado não foi encontrado!');
             return res.redirect('/posto');
         }
@@ -130,10 +124,10 @@ async formularioCadastroSalvar(
             req.addFlash('error', resultado.getErrors);
             req.setOld(dados);
             return res.redirect(`/posto/${id}/atualizacao`);
-        } else {
-            await this.postoService.update(id, dados);
-            req.addFlash('success', 'Posto atualizado com sucesso!');
-            return res.redirect('/posto');
         }
+
+        await this.postoService.update(id, dados);
+        req.addFlash('success', 'Posto atualizado com sucesso!');
+        return res.redirect('/posto');
     }
 }

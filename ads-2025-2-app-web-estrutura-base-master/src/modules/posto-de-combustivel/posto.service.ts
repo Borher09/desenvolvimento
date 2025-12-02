@@ -21,7 +21,7 @@ export class PostoService {
     async create(data: any) {
     console.log('Service - Dados recebidos:', data);
     
-    // Converter strings vazias para null
+    
     Object.keys(data).forEach(key => {
         if (data[key] === '') {
             data[key] = null;
@@ -46,6 +46,6 @@ export class PostoService {
     }
 
     async remove(id: number) {
-        return await Posto.delete(id); // Exclusão permanente
+        return await Posto.delete(id); 
     }
 }
