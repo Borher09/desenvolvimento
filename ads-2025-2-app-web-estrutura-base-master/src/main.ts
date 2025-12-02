@@ -14,53 +14,54 @@ import { helpers } from './common/helpers/hbs-functions';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Configuração do Handlebars
   const hbs = exphbs.create({
-    extname: '.hbs', // Extensão dos arquivos
-    layoutsDir: join(__dirname, 'views/_layouts'), // Pasta de layouts
-    partialsDir: join(__dirname, 'views/_partials'), // Pasta de partials
-    defaultLayout: 'main', // Layout padrão
+    extname: '.hbs',
+    layoutsDir: join(__dirname, 'views/_layouts'),
+    partialsDir: join(__dirname, 'views/_partials'),
+    defaultLayout: 'main',
     helpers,
   });
+
+  // Body parser
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  // Configurar arquivos estáticos
+
+  // Arquivos estáticos
   app.useStaticAssets(join(__dirname, '..', 'public'));
-  
-  // Configurar views
+
+  // Configuração das views
   app.setBaseViewsDir(join(__dirname, 'views'));
   app.engine('.hbs', hbs.engine);
   app.setViewEngine('hbs');
 
-  // Middlewares
-  app.use(methodOverride('_method')); // Para suportar PUT e DELETE em formulários
-  
-  // Configurar sessão
+  // PUT / DELETE via formulário HTML
+  app.use(methodOverride('_method'));
+
+  // Sessão
   app.use(
     session({
-      secret: 'my-secret', // Mude para uma chave segura em produção
+      secret: 'my-secret',
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // 1 dia
-      }
+        maxAge: 24 * 60 * 60 * 1000,
+      },
     }),
   );
-  
-  // Configurar flash messages
+
+  // Flash messages
   app.use(flash());
 
-  // Adicionar middlewares personalizados se necessário
+  // Middleware personalizado
   app.use((req: any, res: any, next: any) => {
-    // Middleware para adicionar métodos ao request
+    // Adiciona addFlash()
     if (!req.addFlash) {
-      req.addFlash = function(type: string, message: string | string[]) {
-        if (!req.session.flash) {
-          req.session.flash = {};
-        }
-        if (!req.session.flash[type]) {
-          req.session.flash[type] = [];
-        }
-        
+      req.addFlash = function (type: string, message: string | string[]) {
+        if (!req.session.flash) req.session.flash = {};
+        if (!req.session.flash[type]) req.session.flash[type] = [];
+
         if (Array.isArray(message)) {
           req.session.flash[type].push(...message);
         } else {
@@ -69,30 +70,34 @@ async function bootstrap() {
       };
     }
 
+    // getOld()
     if (!req.getOld) {
-      req.getOld = function() {
+      req.getOld = function () {
         return req.session.old || {};
       };
     }
 
+    // setOld()
     if (!req.setOld) {
-      req.setOld = function(data: any) {
+      req.setOld = function (data: any) {
         req.session.old = data;
       };
     }
 
-    // Tornar flash messages disponíveis em todas as views
+    // Disponibiliza mensagens e dados antigos nas views
     res.locals.messages = req.session.flash || {};
     res.locals.old = req.session.old || {};
-    
-    // Limpar flash messages após exibi-las
-    req.session.flash = {};
-    req.session.old = {};
-    
+
     next();
+
+    // Limpa **somente depois** da resposta ser enviada
+    res.on('finish', () => {
+      req.session.flash = {};
+      req.session.old = {};
+    });
   });
 
-  // Filtro global para tratamento de exceções
+  // Filtro global
   app.useGlobalFilters(new NotFoundExceptionFilter());
 
   const port = process.env.PORT || 3333;
@@ -101,4 +106,5 @@ async function bootstrap() {
     Logger.log(`Servidor rodando na porta ${port}`, 'Bootstrap'),
   );
 }
+
 void bootstrap();

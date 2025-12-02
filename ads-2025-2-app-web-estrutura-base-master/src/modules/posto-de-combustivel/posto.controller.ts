@@ -35,12 +35,13 @@ export class PostoController {
         return {};
     }
 
-    @Post('/novo/salvar')
-    async formularioCadastroSalvar(
-        @Body() dadosForm: any,
-        @Req() req: Request,
-        @Res() res: Response,
-    ) {
+  @Post('/novo/salvar')
+async formularioCadastroSalvar(
+    @Body() dadosForm: any,
+    @Req() req: Request,
+    @Res() res: Response,
+) {
+    console.log("Controller - Dados recebidos:", dadosForm);
         const resultado = await validate(PostoDto, dadosForm);
 
         if (resultado.isError) {

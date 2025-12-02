@@ -22,19 +22,19 @@ export class Posto extends BaseEntity {
     @Column({ nullable: true })
     telefone: string;
 
-    @Column('decimal', { precision: 10, scale: 2, nullable: true })
+    @Column('decimal', { precision: 10, scale: 3, nullable: true })
     preco_gasolina_comum: number;
 
-    @Column('decimal', { precision: 10, scale: 2, nullable: true })
+    @Column('decimal', { precision: 10, scale: 3, nullable: true })
     preco_gasolina_aditivada: number;
 
-    @Column('decimal', { precision: 10, scale: 2, nullable: true })
+    @Column('decimal', { precision: 10, scale: 3, nullable: true })
     preco_etanol: number;
 
-    @Column('decimal', { precision: 10, scale: 2, nullable: true })
+    @Column('decimal', { precision: 10, scale: 3, nullable: true })
     preco_diesel: number;
 
-    @Column('decimal', { precision: 10, scale: 2, nullable: true })
+    @Column('decimal', { precision: 10, scale: 3, nullable: true })
     preco_diesel_s10: number;
 
     @CreateDateColumn()
