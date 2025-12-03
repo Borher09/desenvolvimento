@@ -1,9 +1,15 @@
 // src/posto/posto.service.ts
-import { Injectable } from '@nestjs/common';
+import { Inject,Injectable } from '@nestjs/common';
 import { Posto } from './posto.entity';
+import { DataSource } from 'typeorm';
+
 
 @Injectable()
 export class PostoService {
+    constructor(
+    @Inject('DATA_SOURCE')
+    private dataSource: DataSource,
+  ) {}
     async getAll() {
         const postos = await Posto.find({
             order: { criadoEm: 'DESC' }
@@ -48,4 +54,17 @@ export class PostoService {
     async remove(id: number) {
         return await Posto.delete(id); 
     }
+async buscarMaisBarato(tipo: string) {
+    tipo = tipo.trim();
+    const coluna = `preco_${tipo}`;
+    console.log("TIPO RECEBIDO:", tipo);
+    console.log("COLUNA CONSULTADA:", coluna);
+    return await Posto.createQueryBuilder('posto')
+        .where(`posto.${coluna} IS NOT NULL`)
+        .orderBy(`posto.${coluna}`, 'ASC')
+        .getOne();
+}
+
+
+    
 }

@@ -53,6 +53,32 @@ export class PostoController {
         req.addFlash('success', 'Posto cadastrado com sucesso!');
         return res.redirect('/posto');
     }
+    @Get('/buscar/barato/:tipo')
+@Render('posto/mais-barato')
+async buscarMaisBarato(@Param('tipo') tipo: string, @Req() req: Request) {
+    console.log("TIPO RECEBIDO:", tipo);
+
+    try {
+        const posto = await this.postoService.buscarMaisBarato(tipo);
+
+        if (!posto) {
+            req.addFlash('error', `Nenhum preço encontrado para o tipo: ${tipo}`);
+            return { posto: null, tipo, preco: null };
+        }
+
+        const campoPreco = `preco_${tipo}`;
+
+      
+        const preco = posto[campoPreco];
+
+        return { posto, tipo, preco };
+
+    } catch (error) {
+        req.addFlash('error', error.message);
+        return { posto: null, tipo, preco: null };
+    }
+}
+
 
     @Get('/:id/exclusao')
     @Render('posto/formulario-exclusao')
@@ -130,4 +156,7 @@ export class PostoController {
         req.addFlash('success', 'Posto atualizado com sucesso!');
         return res.redirect('/posto');
     }
+
+
+    
 }
